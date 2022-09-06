@@ -770,11 +770,11 @@ typecmd(int argc, char **argv)
 }
 
 STATIC int
-describe_command(out, command, path, verbose)
-	struct output *out;
-	char *command;
-	const char *path;
-	int verbose;
+describe_command(
+	struct output * out,
+	char * command,
+	const char * path,
+	int verbose)
 {
 	struct cmdentry entry;
 	struct tblentry *cmdp;
@@ -876,9 +876,10 @@ out:
 }
 
 int
-commandcmd(argc, argv)
-	int argc;
-	char **argv;
+commandcmd(
+	int argc,
+	char **argv
+)
 {
 	char *cmd;
 	int c;
