@@ -1,6 +1,8 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+#define BSD
+
 /* Define if __attribute__((__alias__())) is supported */
 #define HAVE_ALIAS_ATTRIBUTE 1
 

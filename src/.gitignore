@@ -8,3 +8,4 @@ mkinit
 mknodes
 mksignames
 mksyntax
+*.wasm

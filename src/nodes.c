@@ -119,8 +119,9 @@ copyfunc(union node *n)
 
 
 STATIC void
-calcsize(n)
-	union node *n;
+calcsize(
+	union node *n
+)
 {
       if (n == NULL)
 	    return;
@@ -203,8 +204,9 @@ calcsize(n)
 
 
 STATIC void
-sizenodelist(lp)
-	struct nodelist *lp;
+sizenodelist(
+	struct nodelist *lp
+)
 {
 	while (lp) {
 		funcblocksize += SHELL_ALIGN(sizeof(struct nodelist));
@@ -216,8 +218,9 @@ sizenodelist(lp)
 
 
 STATIC union node *
-copynode(n)
-	union node *n;
+copynode(
+	union node *n
+)
 {
 	union node *new;
 
@@ -314,8 +317,9 @@ copynode(n)
 
 
 STATIC struct nodelist *
-copynodelist(lp)
-	struct nodelist *lp;
+copynodelist(
+	struct nodelist *lp
+)
 {
 	struct nodelist *start;
 	struct nodelist **lpp;
@@ -336,8 +340,9 @@ copynodelist(lp)
 
 
 STATIC char *
-nodesavestr(s)
-	char   *s;
+nodesavestr(
+	char   *s
+)
 {
 	char   *rtn = funcstring;
 

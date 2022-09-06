@@ -12,8 +12,9 @@ CFLAGS = --target=wasm32-wasmer-wasi \
          -mthread-model posix \
          -ftls-model=local-exec \
          -fno-trapping-math \
-         -D_WASI_EMULATED_MMAN \
+		 -D_WASI_EMULATED_MMAN \
          -D_WASI_EMULATED_SIGNAL \
+		 -D_WASI_EMULATED_PROCESS_CLOCKS \
          -Wall \
          -Wextra \
          -Werror \
@@ -40,7 +41,6 @@ CFLAGS = --target=wasm32-wasmer-wasi \
 CLFLAGS = -Wl,--shared-memory \
           -Wl,--max-memory=4294967296 \
           -Wl,--import-memory \
-          -Wl,--import-undefined \
           -Wl,--export-dynamic \
           -Wl,--export=__heap_base \
           -Wl,--export=__stack_pointer \
@@ -69,13 +69,10 @@ SRC = alias \
       main \
       memalloc \
       miscbltin \
-      mkinit \
-      mknodes \
-      mksignames \
-      mksyntax \
       mystring \
       nodes \
       output \
+	  options \
       parser \
       redir \
       show \
@@ -83,13 +80,43 @@ SRC = alias \
       syntax \
       system \
       trap \
-      var
+      var \
+	  times \
+	  test \
+	  printf
+
+OBJS = $(SRC:=.o)
+
+all: dash
 
 dash: $(SRC)
 	clang $(CFLAGS) $(CLFLAGS) \
-              $@.c \
-			  $(SRC) \
+              $(OBJS) \
               -o $@.wasm
+
+mkinit: $(SRC)
+	clang $(CFLAGS) $(CLFLAGS) \
+	          $@.c \
+              $(OBJS) \
+              -o $@.wasm
+
+mknodes: $(SRC)
+	clang $(CFLAGS) $(CLFLAGS) \
+	          $@.c \
+              $(OBJS) \
+              -o $@.wasm
+
+mksignames: $(SRC)
+	clang $(CFLAGS) $(CLFLAGS) \
+	          $@.c \
+              $(OBJS) \
+              -o $@.wasm
+
+mksyntax: $(SRC)
+	clang $(CFLAGS) $(CLFLAGS) \
+	          $@.c \
+              $(OBJS) \
+              -o $@.wasm      
 
 %: %.c
 	clang $(CFLAGS) \

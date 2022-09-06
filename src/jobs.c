@@ -244,9 +244,10 @@ close:
 
 
 int
-killcmd(argc, argv)
-	int argc;
-	char **argv;
+killcmd(
+	int argc,
+	char **argv
+)
 {
 	extern char *signal_names[];
 	int signo = -1;
