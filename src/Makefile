@@ -46,6 +46,7 @@ CLFLAGS = -Wl,--shared-memory \
           -Wl,--export=__stack_pointer \
           -Wl,--export=__data_end \
           -Wl,--export=__wasm_init_tls \
+          -Wl,--export=__wasm_signal \
           -Wl,--export=__tls_size \
           -Wl,--export=__tls_align \
           -Wl,--export=__tls_base
@@ -92,31 +93,39 @@ all: dash
 dash: $(SRC)
 	clang $(CFLAGS) $(CLFLAGS) \
               $(OBJS) \
-              -o $@.wasm
+              -o $@.rustc.wasm
+	wasm-opt -O2 --asyncify $@.rustc.wasm -o $@.wasm
+	cp -f $@.wasm /prog/ate/wasmer-web/public/bin
 
 mkinit: $(SRC)
 	clang $(CFLAGS) $(CLFLAGS) \
 	          $@.c \
               $(OBJS) \
-              -o $@.wasm
+              -o $@.rustc.wasm
+	wasm-opt -O2 --asyncify $@.rustc.wasm -o $@.wasm
+	cp -f $@.wasm /prog/ate/wasmer-web/public/bin
 
 mknodes: $(SRC)
 	clang $(CFLAGS) $(CLFLAGS) \
 	          $@.c \
               $(OBJS) \
-              -o $@.wasm
+              -o $@.rustc.wasm
+	wasm-opt -O2 --asyncify $@.rustc.wasm -o $@.wasm
+	cp -f $@.wasm /prog/ate/wasmer-web/public/bin
 
 mksignames: $(SRC)
 	clang $(CFLAGS) $(CLFLAGS) \
 	          $@.c \
               $(OBJS) \
               -o $@.wasm
+	cp -f $@.wasm /prog/ate/wasmer-web/public/bin
 
 mksyntax: $(SRC)
 	clang $(CFLAGS) $(CLFLAGS) \
 	          $@.c \
               $(OBJS) \
-              -o $@.wasm      
+              -o $@.wasm
+	cp -f $@.wasm /prog/ate/wasmer-web/public/bin
 
 %: %.c
 	clang $(CFLAGS) \

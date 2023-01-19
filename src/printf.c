@@ -479,6 +479,8 @@ check_conversion(const char *s, const char *ep)
 int
 echocmd(int argc, char **argv)
 {
+	sh_warnx("failed");
+
 	const char *lastfmt = snlfmt;
 	int nonl;
 

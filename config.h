@@ -168,13 +168,13 @@
 /* #undef _MINIX */
 
 /* Define to system shell path */
-/* #undef _PATH_BSHELL */
+#define _PATH_BSHELL "/bin/sh"
 
 /* Define to devnull device node path */
-/* #undef _PATH_DEVNULL */
+#define _PATH_DEVNULL "/dev/null"
 
 /* Define to tty device node path */
-/* #undef _PATH_TTY */
+#define _PATH_TTY "/dev/tty"
 
 /* Define to 2 if the system does not provide POSIX.1 features except with
    this defined. */
