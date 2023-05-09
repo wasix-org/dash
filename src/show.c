@@ -32,6 +32,7 @@
  * SUCH DAMAGE.
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -262,7 +263,7 @@ trputc(int c)
 {
 	if (debug != 1)
 		return;
-	putc(c, tracefile);
+	putc(c, stderr);
 }
 
 void
@@ -273,7 +274,7 @@ trace(const char *fmt, ...)
 	if (debug != 1)
 		return;
 	va_start(va, fmt);
-	(void) vfprintf(tracefile, fmt, va);
+	(void) vfprintf(stdout, fmt, va);
 	va_end(va);
 }
 
@@ -282,7 +283,7 @@ tracev(const char *fmt, va_list va)
 {
 	if (debug != 1)
 		return;
-	(void) vfprintf(tracefile, fmt, va);
+	(void) vfprintf(stdout, fmt, va);
 }
 
 
@@ -291,7 +292,7 @@ trputs(const char *s)
 {
 	if (debug != 1)
 		return;
-	fputs(s, tracefile);
+	fputs(s, stderr);
 }
 
 
@@ -303,7 +304,7 @@ trstring(char *s)
 
 	if (debug != 1)
 		return;
-	putc('"', tracefile);
+	putc('"', stderr);
 	for (p = s ; *p ; p++) {
 		switch ((signed char)*p) {
 		case '\n':  c = 'n';  goto backslash;
@@ -314,22 +315,22 @@ trstring(char *s)
 		case CTLESC:  c = 'e';  goto backslash;
 		case CTLVAR:  c = 'v';  goto backslash;
 		case CTLBACKQ:  c = 'q';  goto backslash;
-backslash:	  putc('\\', tracefile);
-			putc(c, tracefile);
+backslash:	  putc('\\', stderr);
+			putc(c, stderr);
 			break;
 		default:
 			if (*p >= ' ' && *p <= '~')
-				putc(*p, tracefile);
+				putc(*p, stderr);
 			else {
-				putc('\\', tracefile);
-				putc(*p >> 6 & 03, tracefile);
-				putc(*p >> 3 & 07, tracefile);
-				putc(*p & 07, tracefile);
+				putc('\\', stderr);
+				putc(*p >> 6 & 03, stderr);
+				putc(*p >> 3 & 07, stderr);
+				putc(*p & 07, stderr);
 			}
 			break;
 		}
 	}
-	putc('"', tracefile);
+	putc('"', stderr);
 }
 
 
@@ -341,9 +342,9 @@ trargs(char **ap)
 	while (*ap) {
 		trstring(*ap++);
 		if (*ap)
-			putc(' ', tracefile);
+			putc(' ', stderr);
 		else
-			putc('\n', tracefile);
+			putc('\n', stderr);
 	}
 }
 
@@ -384,13 +385,11 @@ opentrace(void)
 		if (!(!fclose(tracefile) && (tracefile = fopen(s, "a")))) {
 #endif /* __KLIBC__ */
 			fprintf(stderr, "Can't re-open %s\n", s);
-			debug = 0;
 			return;
 		}
 	} else {
 		if ((tracefile = fopen(s, "a")) == NULL) {
 			fprintf(stderr, "Can't open %s\n", s);
-			debug = 0;
 			return;
 		}
 	}

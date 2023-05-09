@@ -60,7 +60,11 @@ struct shparam {
 #define	bflag optlist[13]
 #define	uflag optlist[14]
 #define	nolog optlist[15]
+#ifdef DEBUG
+#define debug 1
+#else
 #define	debug optlist[16]
+#endif
 
 #define NOPTS	17
 

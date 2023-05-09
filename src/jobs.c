@@ -1097,6 +1097,7 @@ gotjob:
 			thisjob->state = state;
 #if JOBS
 			if (state == JOBSTOPPED) {
+				TRACE(("Job %d:setting CUR_STOPPED\n", jobno(thisjob)));
 				set_curjob(thisjob, CUR_STOPPED);
 			}
 #endif
@@ -1110,12 +1111,18 @@ out:
 		char s[48 + 1];
 		int len;
 
+		TRACE(("Job %d: printing status %d\n", jobno(thisjob), status));
 		len = sprint_status(s, status, 1);
 		if (len) {
 			s[len] = '\n';
 			s[len + 1] = 0;
 			outstr(s, out2);
 		}
+	}
+	if (thisjob) {
+		TRACE(("Job %d: waitone finished pid=%d\n", jobno(thisjob), pid));
+	} else {
+		TRACE(("Job (null): waitone finished pid=%d\n",  pid));
 	}
 	return pid;
 }
@@ -1176,9 +1183,10 @@ waitproc(int block, int *status)
 
 	do {
 		gotsigchld = 0;
-		do
+		do {
 			err = wait3(status, flags, NULL);
-		while (err < 0 && errno == EINTR);
+			TRACE(("wait: err=%d, status=%d\n", err, *status));
+		} while (err < 0 && errno == EINTR);
 
 		if (err || (err = -!block))
 			break;

@@ -877,7 +877,7 @@ bail:
 		path = unlikely(path) ? path : pathval();
 		find_command(argv[0], &cmdentry, cmd_flag | DO_ERR, path);
 	}
-
+	
 	jp = NULL;
 
 	/* Execute the command. */
@@ -953,6 +953,8 @@ evalbltin(const struct builtincmd *cmd, int argc, char **argv, int flags)
 		status = evalcmd(argc, argv, flags);
 	else
 		status = (*cmd->builtin)(argc, argv);
+	TRACE(("evalbltin status=%d\n", status));
+
 	flushall();
 	if (outerr(out1))
 		sh_warnx("%s: I/O error", commandname);

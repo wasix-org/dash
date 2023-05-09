@@ -3,8 +3,8 @@ LLD_PATH=/prog/rust/build/x86_64-unknown-linux-gnu/lld/bin
 
 CFLAGS = --target=wasm32-wasmer-wasi \
          -O2 \
-		 -include ../config.h \
-		 --sysroot ../../wasix-libc/sysroot32 \
+         -include ../config.h \
+         --sysroot ../../wasix-libc/sysroot32 \
          -matomics \
          -mbulk-memory \
          -mmutable-globals \
@@ -12,9 +12,9 @@ CFLAGS = --target=wasm32-wasmer-wasi \
          -mthread-model posix \
          -ftls-model=local-exec \
          -fno-trapping-math \
-		 -D_WASI_EMULATED_MMAN \
+         -D_WASI_EMULATED_MMAN \
          -D_WASI_EMULATED_SIGNAL \
-		 -D_WASI_EMULATED_PROCESS_CLOCKS \
+         -D_WASI_EMULATED_PROCESS_CLOCKS \
          -Wall \
          -Wextra \
          -Werror \
@@ -37,6 +37,7 @@ CFLAGS = --target=wasm32-wasmer-wasi \
          -Wno-unknown-pragmas \
          -MD \
          -MP
+#         -DDEBUG
 
 CLFLAGS = -Wl,--shared-memory \
           -Wl,--max-memory=4294967296 \

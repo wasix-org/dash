@@ -80,6 +80,20 @@ error(const char *msg, ...)
 	/* NOTREACHED */
 }
 
+static void
+info(const char *msg, ...)
+{
+	va_list va;
+
+	va_start(va, msg);
+
+	(void) fprintf(stderr, "line %d: ", errlinno);
+	(void) vfprintf(stderr, msg, va);
+	(void) fputc('\n', stderr);
+
+	va_end(va);
+}
+
 #define PF(f, func) { \
 	switch ((char *)param - (char *)array) { \
 	default: \
@@ -479,8 +493,6 @@ check_conversion(const char *s, const char *ep)
 int
 echocmd(int argc, char **argv)
 {
-	sh_warnx("failed");
-
 	const char *lastfmt = snlfmt;
 	int nonl;
 
